@@ -1,0 +1,19 @@
+module.exports = async function (context, req) {
+    context.log('JavaScript HTTP trigger function processed a request.');
+
+    let nth = req.body.nth
+
+    function fibonacci(num, memo) {
+        memo = memo || {};
+      
+        if (memo[num]) return memo[num];
+        if (num <= BigInt(1)) return BigInt(1);
+      
+        return memo[num] = fibonacci(num - 1n, memo) + fibonacci(num - 2n, memo);
+      }
+
+    context.res = {
+        headers: { 'Content-Type': 'application/json' },
+        body: {"res":fibonacci(BigInt(nth), {}).toString()}
+    };
+}
